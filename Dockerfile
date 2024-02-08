@@ -1,5 +1,5 @@
 # https://jimbo.gloval.es/pipeline_utils/gitlab-ci/-/blob/main/dockerfiles/pipeline/js/bullseye/dockerfile.proyectos-node-react
-# Fecha de la última actualización de la plantilla: 28/06/2023
+# Fecha de la última actualización de la plantilla: 8/02/2024
 
 # Dockerfile multipasos (2 pasos)
 # Paso(s) 1.X: Empaqueta la(s) aplicación(es) de frontent
@@ -24,14 +24,8 @@ RUN npm ci
 # Copia todos los ficheros del proyecto (menos los indicados en el .gitignore)
 COPY . .
 
-# Sustituye las llamadas a las variables de entorno ("process.env.", "import.meta.env.") por la
-# por la siguiente "window._env_.", para que se tomen las variables de entorno a partir del archivo
-# "env.js" generado en el último paso del Dockerfile
-# RUN find src -type f \( -name "*.js" -o -name "*.jsx" \) -exec sed -i 's/process.env./window._env_./g; s/import.meta.env./window._env_./g' {} +
-
-# Generar variables de entorno para la aplicación React
+# Modifica el código para poder tomar variables de entorno para la aplicación React a partir del env file
 # COPY prebuild-react-env-vars.sh prebuild-react-env-vars.sh
-
 RUN curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "${GITLAB_CI_FILES_URL}/scripts%2Freact%2Fbash%2Fprebuild-react-env-vars.sh/raw" > prebuild-react-env-vars.sh \
   && chmod +x prebuild-react-env-vars.sh \
   && /bin/sh prebuild-react-env-vars.sh
@@ -59,7 +53,6 @@ COPY --from=build_client /app/client/build $NGINX_APP_PATH
 
 # Generar variables de entorno para la aplicación React
 # COPY generar-js-env-vars.sh generar-js-env-vars.sh
-
 RUN curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "${GITLAB_CI_FILES_URL}/scripts%2Freact%2Fsh%2Fgenerar-js-env-vars.sh/raw" > generar-js-env-vars.sh \
   && chmod +x generar-js-env-vars.sh \
   && /bin/sh generar-js-env-vars.sh
