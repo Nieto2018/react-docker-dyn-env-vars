@@ -30,6 +30,11 @@ RUN npm run build-app
 # Paso 2: Construye la imagen con Nginx donde correrá la(s) aplicación(es) de frontend
 FROM nginx:alpine
 
+# Indica la URL raíz del proyecto gitlab-ci para descargar ficheros por la API (https://jimbo.gloval.es/pipeline_utils/gitlab-ci)
+ARG GITLAB_CI_FILES_URL
+# # Indica el token que se usará en la API de Gitlab
+ARG GITLAB_TOKEN
+
 # Cambio horario
 RUN apk add tzdata
 ENV TZ 'Europe/Madrid'
