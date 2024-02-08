@@ -11,10 +11,10 @@ FROM node:lts-bullseye as build_client
 # Indica el directorio del proyecto
 WORKDIR /app/client
 
-# Copia los ficheros con la lista de las dependencias del proyecto (package.json y package-lock.json)
-COPY package*.json ./
-# Instala los paquetes indicados en el archivo package-lock.json
-RUN npm ci
+# # Copia los ficheros con la lista de las dependencias del proyecto (package.json y package-lock.json)
+# COPY package*.json ./
+# # Instala los paquetes indicados en el archivo package-lock.json
+# RUN npm ci
 
 # Copia todos los ficheros del proyecto (menos los indicados en el .gitignore)
 COPY . .
@@ -55,6 +55,7 @@ ADD ./config/nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
 # El comando sobreescribe la variable que hace referencia al puerto en la plantilla y el resultado se
 # vuelca en el fichero /etc/nginx/conf.d/default.conf
 # CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
-CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" \
-  " && sh env.sh $NGINX_APP_PATH" \
-  " && nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && sh env.sh $NGINX_APP_PATH && nginx -g 'daemon off;'"]
+# CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" \
+#   " && sh env.sh $NGINX_APP_PATH" \
+#   " && nginx -g 'daemon off;'"]
