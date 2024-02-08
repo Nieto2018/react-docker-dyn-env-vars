@@ -32,7 +32,7 @@ COPY . .
 # Generar variables de entorno para la aplicación React
 # COPY prebuild-react-env-vars.sh prebuild-react-env-vars.sh
 
-RUN curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "${GITLAB_CI_FILES_URL}/scripts%2Freact%2Fbash%2Fgenerar-js-env-vars.sh/raw" > prebuild-react-env-vars.sh \
+RUN curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "${GITLAB_CI_FILES_URL}/scripts%2Freact%2Fbash%2Fprebuild-react-env-vars.sh/raw" > prebuild-react-env-vars.sh \
   && chmod +x prebuild-react-env-vars.sh \
   && /bin/sh prebuild-react-env-vars.sh
 
