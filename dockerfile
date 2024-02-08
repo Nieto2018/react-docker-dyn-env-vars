@@ -19,6 +19,11 @@ RUN npm ci
 # Copia todos los ficheros del proyecto (menos los indicados en el .gitignore)
 COPY . .
 
+# Sustituye las llamadas a las variables de entorno ("process.env.", "import.meta.env.") por la
+# por la siguiente "window._env_.", para que se tomen las variables de entorno a partir del archivo
+# "env.js" generado en el último paso del Dockerfile
+RUN find src -type f \( -name "*.js" -o -name "*.jsx" \) -exec sed -i 's/process.env./window._env_./g; s/import.meta.env./window._env_./g' {} +
+
 # Empaquetamos el proyecto
 RUN npm run build-app
 
