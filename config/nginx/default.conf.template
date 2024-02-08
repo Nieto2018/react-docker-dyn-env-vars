@@ -1,0 +1,23 @@
+# default.conf.template
+# https://jimbo.gloval.es/pipeline_utils/gitlab-ci/-/wikis/Integrar-proyecto-Javascript-con-CI-CD-en-Gitlab#configurar-nginx-con-variables-de-entorno
+# Fecha de la última actualización de la plantilla: 28/06/2023
+
+server {
+    
+  # Puerto por defecto para la integración del pipeline de Gitlab con Kubernetes
+  # (Se tomará el valor por defecto del Dockerfile, si no es sobreescrito)
+  listen $PORT;
+
+  location / {
+    root /var/www/app/client/;
+    index index.html index.htm;
+    # Soluciona el error 404 cuando se refresca una aplicación SPA
+    try_files $uri $uri/ /index.html;
+  }
+
+  error_page 500 502 503 504  /50x.html;
+  location = /50x.html {
+    root /var/www/app/;
+  }
+
+}
