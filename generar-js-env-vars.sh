@@ -9,7 +9,6 @@ REACT_VARS_LIST=$(env | grep REACT_APP_)
 # Comprueba que la variable REACT_VARS_LIST no está vacía
 if [ -z "$REACT_VARS_LIST" ]; then
   echo "\033[33mNo se han encontrado variables con prefixo REACT_APP_\033[0m"
-  exit 1
 else
   echo "Se han encontrado variables con prefixo REACT_APP_"
 
