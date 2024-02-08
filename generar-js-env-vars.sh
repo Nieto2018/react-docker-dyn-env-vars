@@ -1,5 +1,24 @@
 #!/bin/sh
 
+# Este script de shell tiene como propósito generar un archivo JavaScript con las variables de entorno que empiezan con el prefijo REACT_APP_.
+# Toma como entrada las variables de entorno del sistema.
+# Produce como salida un archivo JavaScript llamado react.env.js (o con el nombre especificado en un parámetro) que contiene 
+# las variables de entorno mapeadas como propiedades de un objeto JavaScript.
+# Primero, imprime un mensaje indicando que se está ejecutando el script.
+# Luego, obtiene la lista de variables de entorno que empiezan con REACT_APP_ y la almacena en la variable REACT_VARS_LIST.
+# Comprueba si REACT_VARS_LIST está vacía, en cuyo caso imprime un mensaje diciendo que no se encontraron variables.
+# Si hay variables, imprime un mensaje confirmando que se encontraron variables con el prefijo.
+# Luego, obtiene el nombre del archivo de salida de un parámetro o usa react.env.js por defecto.
+# También obtiene la ruta base de la aplicación React de un parámetro o usa el directorio actual por defecto.
+# Con la ruta base, construye la ruta absoluta del directorio donde se guardará el archivo de variables de entorno.
+# Crea el directorio si no existe.
+# Con la ruta del directorio y el nombre de archivo, construye la ruta absoluta del archivo de salida.
+# Crea el archivo, escribe la declaración del objeto JavaScript y va iterando cada variable de entorno, extrayendo la 
+# clave y el valor para escribirlos como propiedades del objeto.
+# Finalmente imprime un mensaje de confirmación con la ruta del archivo generado y una instrucción de cómo importarlo en la aplicación React.
+# De esta manera, el script automatiza la creación de un archivo de configuración con las variables de entorno disponibles para ser 
+# usadas fácilmente en una aplicación React.
+
 echo "\033[34mLanzando script env.sh. El script creará un archivo js de variables de entorno para React\033[0m"
 
 
