@@ -38,7 +38,13 @@ docker run --rm \
   --name envs \
   -p 80:5000 \
   --env-file $PWD/.env \
-  envs-react
+  envs-react:latest
+
+docker run --rm \
+  --name envs \
+  -p 80:5000 \
+  --env-file $PWD/.env \
+  antonio_nieto/react-pipeline-gitlab-jimbo/develop:latest
 ```
 
 ```bash
