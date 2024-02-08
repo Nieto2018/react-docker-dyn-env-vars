@@ -11,10 +11,10 @@ FROM node:lts-bullseye as build_client
 # Indica el directorio del proyecto
 WORKDIR /app/client
 
-# # Copia los ficheros con la lista de las dependencias del proyecto (package.json y package-lock.json)
-# COPY package*.json ./
-# # Instala los paquetes indicados en el archivo package-lock.json
-# RUN npm ci
+# Copia los ficheros con la lista de las dependencias del proyecto (package.json y package-lock.json)
+COPY package*.json ./
+# Instala los paquetes indicados en el archivo package-lock.json
+RUN npm ci
 
 # Copia todos los ficheros del proyecto (menos los indicados en el .gitignore)
 COPY . .
@@ -41,7 +41,11 @@ WORKDIR $NGINX_APP_PATH
 COPY --from=build_client /app/client/build $NGINX_APP_PATH
 
 # Generar variables de entorno para la aplicación React
-COPY env.sh env.sh
+# COPY generar-js-env-vars.sh generar-js-env-vars.sh
+
+RUN curl --header "PRIVATE-TOKEN: ${GITLAB_TOKEN}" "${GITLAB_CI_FILES_URL}/scripts%2Freact%2Fsh%2Fgenerar-js-env-vars.sh/raw" > generar-js-env-vars.sh \
+  && chmod +x generar-js-env-vars.sh \
+  && /bin/sh generar-js-env-vars.sh
 
 # Puerto por defecto para la integración del pipeline de Gitlab con Kubernetes
 # (Se tomará para sobreescribir el puerto de nginx en el archivo default.conf.template)
@@ -54,8 +58,4 @@ ADD ./config/nginx/default.conf.template /etc/nginx/conf.d/default.conf.template
 
 # El comando sobreescribe la variable que hace referencia al puerto en la plantilla y el resultado se
 # vuelca en el fichero /etc/nginx/conf.d/default.conf
-# CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"]
-CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && sh env.sh $NGINX_APP_PATH && nginx -g 'daemon off;'"]
-# CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf" \
-#   " && sh env.sh $NGINX_APP_PATH" \
-#   " && nginx -g 'daemon off;'"]
+CMD ["/bin/sh", "-c", "envsubst '${PORT}' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && /bin/sh generar-js-env-vars.sh $NGINX_APP_PATH && nginx -g 'daemon off;'"]

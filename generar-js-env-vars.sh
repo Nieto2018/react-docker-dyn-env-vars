@@ -1,6 +1,6 @@
 #!/bin/sh
 
-echo "\033[34mLanzando script env.sh. El script creará un archivo de variables de entorno para React\033[0m"
+echo "\033[34mLanzando script env.sh. El script creará un archivo js de variables de entorno para React\033[0m"
 
 
 echo "Comprobando si existen variables con prefixo \033[34mREACT_APP_\033[0m"
@@ -59,5 +59,5 @@ else
   echo "El archivo \033[34m$ENV_VARS_JS_ABS_PATH\033[0m debe estar importado dentro del archivo \033[34mhtml\033[0m de la aplicación React, dentro de la sección \033[34m\"<html><head>...<head\/><html\/>\"\033[0m se la siguiente forma \033[34m\"<script src=\"$ENV_VARS_JS_RELATIVE_PATH\"></script>\"\033[0m."
 fi
 
-# Descomentar si quiere que se borre el archivo env.sh, liberaría espacio en la imagen de docker
-# rm env.sh
+# Descomentar si quiere que se borre el archivo del script, liberaría espacio en la imagen de docker
+# rm generar-js-env-vars.sh
