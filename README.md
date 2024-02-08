@@ -1,64 +1,56 @@
 # react-pipeline-gitlab-jimbo
 
+## Introducción
+
+Este ejemplo tiene como objetivo probar lo citado a continuación:
+
+- Uso de variables de entorno.
+- Crear y despliegar una aplicación React en un contenedor de Nginx con variables de entorno que son inyectactas en tiempo de ejecución a través de un fichero `.env` para que pueda ser desplegada en distintos entornos.
+- Desplegar en Nginx con la capacidad de especificar el puerto de escucha en tiempo de ejecución a través de variable de entorno.
+
+## Variables de entorno
+
 ```bash
-docker run --rm \
-  --name nginx-react \
-  -v $PWD/nginx/default.conf:/etc/nginx/conf.d/default.conf \
-  -v $PWD/build/:/var/www/app/client/ \
-  -p 80:80 \
-  nginx:alpine
+# Por defecto 5000
+PORT=
+REACT_APP_ENV_FILE_VAR_1=
+REACT_APP_ENV_FILE_VAR_2=
+REACT_APP_ENV_FILE_VAR_3=
 ```
 
-# Con front.env.js montado
+## Desplegar para desarrollo
+
+### Requisitos
+
+Instalar los paquetes:
 
 ```bash
-docker run --rm \
-  --name nginx-react \
-  -v $PWD/nginx/default.conf:/etc/nginx/conf.d/default.conf \
-  -v $PWD/build/:/var/www/app/client/ \
-  -v $PWD/front.env.js:/var/www/app/client/config/front.env.js \
-  -p 80:80 \
-  nginx:alpine
+npm i
 ```
 
-# Con env file
+### Despliegue
 
 ```bash
-docker run --rm \
-  --name nginx-react \
-  -v $PWD/nginx/default.conf:/etc/nginx/conf.d/default.conf \
-  -v $PWD/build/:/var/www/app/client/ \
-  -env-file $PWD/.env \
-  -p 80:80 \
-  nginx:alpine
+npm run dev
 ```
 
+## Docker
+
+### Crear imagen
+
+```bash
+docker build \
+  --build-arg GITLAB_CI_FILES_URL=${GITLAB_CI_FILES_URL} \
+  --build-arg GITLAB_TOKEN=${GITLAB_TOKEN} \
+  -t react-pipeline-gitlab-jimbo:latest .
+```
+
+### Desplegar contenedor
+
 ```bash
 docker run --rm \
-  --name envs \
+  --name react-pipeline-gitlab-jimbo \
   -p 80:5000 \
   --env-file $PWD/.env \
-  envs-react:latest
-
-docker run --rm \
-  --name envs \
-  -p 80:5000 \
-  --env-file $PWD/.env \
-  antonio_nieto/react-pipeline-gitlab-jimbo/develop:latest
-```
-
-```bash
-docker run --rm -it \
-  --env-file $PWD/.env \
-  -v $PWD/:/app/client/ \
-  -w /app/client \
-  node:lts-bullseye bash
-```
-
-```bash
-docker run --rm -it \
-  --env-file $PWD/.env \
-  -v $PWD/env.sh:/app/client/env.sh \
-  -w /app/client \
-  node:lts-bullseye bash
+  react-pipeline-gitlab-jimbo:latest
 ```
