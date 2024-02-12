@@ -11,8 +11,9 @@ Este ejemplo tiene como objetivo probar lo citado a continuación:
 ## Variables de entorno
 
 ```bash
-# Por defecto 5000
-PORT=
+# Por defecto 5000 (si no se especifica un puerto hay que dejarlo comentado o provocará un error de Nginx al desplegar el contenedor en Docker)
+# PORT=
+
 REACT_APP_ENV_FILE_VAR_1=
 REACT_APP_ENV_FILE_VAR_2=
 REACT_APP_ENV_FILE_VAR_3=
