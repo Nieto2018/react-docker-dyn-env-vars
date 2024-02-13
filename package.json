@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "export REACT_APP_SCRIPT=script_value && react-scripts start",
+    "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "build-app": "react-scripts build",
