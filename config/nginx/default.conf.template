@@ -1,6 +1,4 @@
 # default.conf.template
-# https://jimbo.gloval.es/pipeline_utils/gitlab-ci/-/wikis/Integrar-proyecto-Javascript-con-CI-CD-en-Gitlab#configurar-nginx-con-variables-de-entorno
-# Fecha de la última actualización de la plantilla: 28/06/2023
 
 server {
     
