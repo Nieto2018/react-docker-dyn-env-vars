@@ -40,10 +40,7 @@ npm run dev
 ### Crear imagen
 
 ```bash
-docker build \
-  --build-arg GITLAB_CI_FILES_URL=${GITLAB_CI_FILES_URL} \
-  --build-arg GITLAB_TOKEN=${GITLAB_TOKEN} \
-  -t react-docker-dyn-env-vars:latest .
+docker build -t react-docker-dyn-env-vars:latest .
 ```
 
 ### Desplegar contenedor
