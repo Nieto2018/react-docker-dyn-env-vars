@@ -1,4 +1,4 @@
-# react-pipeline-gitlab-jimbo
+# react-docker-dyn-env-vars
 
 ## Introducción
 
@@ -43,15 +43,15 @@ npm run dev
 docker build \
   --build-arg GITLAB_CI_FILES_URL=${GITLAB_CI_FILES_URL} \
   --build-arg GITLAB_TOKEN=${GITLAB_TOKEN} \
-  -t react-pipeline-gitlab-jimbo:latest .
+  -t react-docker-dyn-env-vars:latest .
 ```
 
 ### Desplegar contenedor
 
 ```bash
 docker run --rm \
-  --name react-pipeline-gitlab-jimbo \
+  --name react-docker-dyn-env-vars \
   -p 80:5000 \
   --env-file $PWD/.env \
-  react-pipeline-gitlab-jimbo:latest
+  react-docker-dyn-env-vars:latest
 ```
